@@ -1,31 +1,31 @@
-import mongoose,{ Schema,Document } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 import Group, { IGroup } from "./Group";
 
-
-const ToySchema:Schema=new Schema({
-    name:{
-        type:String,
-        required:true
+const ToySchema: Schema = new Schema({
+    name: {
+        type: String,
+        required: true,
     },
-    producer:{
-        type:String,
-        required:false
+    producer: {
+        type: String,
+        required: false,
     },
-    date:{
-        type:Date,
-        default:Date.now
+    date: {
+        type: Date,
+        default: Date.now,
     },
-    group:{
-        type:Group,
-        required:true
-    }
+    group: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref:"Groups"
+    },
 });
 
-export interface IToy extends Document{
-    name:string;
-    producer?:string;
-    date:Date;
-    group:IGroup["_id"];
+export interface IToy extends Document {
+    name: string;
+    producer?: string;
+    date: Date;
+    group: IGroup["_id"];
 }
 
-export default mongoose.model<IToy>("Toys",ToySchema);
+export default mongoose.model<IToy>("toys", ToySchema);

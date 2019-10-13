@@ -14,6 +14,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const UserRoutes_1 = __importDefault(require("./routes/UserRoutes"));
 const config = __importStar(require("./utils/config"));
 class App {
     constructor() {
@@ -29,7 +30,7 @@ class App {
     }
     routes() {
         const router = express_1.default.Router();
-        router.get("/", (req, res) => res.send("Hello"));
+        router.use("/users", UserRoutes_1.default);
         this.express.use("/api", router);
     }
     connectDatabase() {

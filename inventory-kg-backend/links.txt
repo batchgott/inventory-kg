@@ -1,2 +1,8 @@
 --git ssh
 https://stackoverflow.com/questions/8588768/how-do-i-avoid-the-specification-of-the-username-and-password-at-every-git-push
+
+--Generic Repository
+https://github.com/ErickWendel/generic-repository-nodejs-typescript-article
+
+--mongoose typescript relations between documents
+https://wanago.io/2018/12/31/mongodb-relationships-documents-typescript-express-tutorial-5/

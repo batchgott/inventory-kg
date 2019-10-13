@@ -2,6 +2,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express, { Router } from "express";
 import mongoose from "mongoose";
+import UserRoutes from "./routes/UserRoutes";
 import * as config from "./utils/config";
 
 class App {
@@ -22,13 +23,13 @@ class App {
 
     private routes(): void {
         const router: Router = express.Router();
-        router.get("/", (req, res) => res.send("Hello"));
+        router.use("/users", UserRoutes);
 
         this.express.use("/api", router);
     }
 
     private connectDatabase(): void {
-        mongoose.connect(config.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true},
+        mongoose.connect(config.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex:true},
             (err) => err ?
             console.log(err) :
             console.log("Connected to DB"));

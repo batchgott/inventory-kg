@@ -1,37 +1,37 @@
-import mongoose,{ Schema,Document } from "mongoose";
-import Group, { IGroup } from "./Group";
+import mongoose, { Document, Schema } from "mongoose";
+import Group, { IGroup } from "../../src/model/Group";
 
-
-const BookSchema:Schema=new Schema({
-    isbn:{
-        type:String,
-        default:null,
-        unique:true,
-        sparse:true
+const BookSchema: Schema = new Schema({
+    isbn: {
+        type: String,
+        default: null,
+        unique: true,
+        sparse: true,
     },
-    title:{
-        type:String,
-        required:true
+    title: {
+        type: String,
+        required: true,
     },
-    author:{
-        type:String
+    author: {
+        type: String,
     },
-    date:{
-        type:Date,
-        default:Date.now
+    date: {
+        type: Date,
+        default: Date.now,
     },
-    group:{
-        type:Group,
-        required:true
-    }
+    group: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref:"Groups"
+    },
 });
 
-export interface IBook extends Document{
-    isbn?:string;
-    title:string;
-    author?:string;
-    date:Date;
-    group:IGroup["_id"];
+export interface IBook extends Document {
+    isbn?: string;
+    title: string;
+    author?: string;
+    date: Date;
+    group: IGroup["_id"];
 }
 
-export default mongoose.model<IBook>("Books",BookSchema);
+export default mongoose.model<IBook>("books", BookSchema);
