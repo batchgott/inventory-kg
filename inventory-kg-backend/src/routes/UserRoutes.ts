@@ -9,18 +9,24 @@ import * as config from "../../src/utils/config";
 import { authSelfOrAdmin } from "../../src/utils/VerifyRoutes";
 import { string } from "@hapi/joi";
 
-class UserRoutes extends ARoutes {
+class UserRoutes extends ARoutes<typeof UserRepository> {
 
     constructor() {
         super();
         // this.router = express.Router();
+        this.repository=UserRepository;
     }
 
     protected routes(): void {
+
+        //GetAll
         this.router.get("/", async (req, res) => {
-            res.json(await UserRepository.find());
+            res.json(await this.repository.find());
         });
 
+        //TODO: GetOne
+
+        //Create / register
         this.router.post(["/","/register"], async (req, res) => {
             const {error} = registerValidation(req.body);
             if (error) { return res.status(400).send(error.details[0].message); }
@@ -31,7 +37,6 @@ class UserRoutes extends ARoutes {
                 password: req.body.password,
                 role: ERole.USER,
             });
-
             let usernameExists = await User.findOne({username: user.username});
             let count: number = 2;
             let newUserName:string=user.username;
@@ -45,9 +50,10 @@ class UserRoutes extends ARoutes {
             const hashedPassword = await bcrypt.hash(user.password, salt);
             user.password = hashedPassword;
 
-            res.json(await UserRepository.create(user));
+            res.json(await this.repository.create(user));
         });
 
+        //Login
         this.router.post("/login",async(req,res)=>{
             const {error} = loginValidation(req.body);
             if (error) { return res.status(400).send(error.details[0].message); }
@@ -62,10 +68,13 @@ class UserRoutes extends ARoutes {
             res.header("auth-token",token).send(token);
         });
 
+        //Delete
         this.router.delete("/:userId",authSelfOrAdmin,async(req,res)=>{
-            res.json(await UserRepository.delete(req.params.userId));
+            res.json(await this.repository.delete(req.params.userId));
         });
 
+        //Update
+        //TODO: Check if username exists
         this.router.put("/:userId",authSelfOrAdmin,async(req,res)=>{
             const {error} = updateUserSelfValidation(req.body);
                 if (error) { return res.status(400).send(error.details[0].message); }
@@ -73,8 +82,11 @@ class UserRoutes extends ARoutes {
             user.username=req.body.username;
             user.firstName=req.body.firstName;
             user.lastName=req.body.lastName;
-            res.json(await UserRepository.update(req.params.userId,user));
+            res.json(await this.repository.update(req.params.userId,user));
         });
+
+        //TODO: Create route for updating password
+        //TODO: Create update route for administrator
     }
 }
 

@@ -4,6 +4,7 @@ import express, { Router } from "express";
 import mongoose from "mongoose";
 import UserRoutes from "./routes/UserRoutes";
 import * as config from "./utils/config";
+import GroupRoutes from "./routes/GroupRoutes";
 
 class App {
     public express: express.Application;
@@ -24,6 +25,7 @@ class App {
     private routes(): void {
         const router: Router = express.Router();
         router.use("/users", UserRoutes);
+        router.use("/groups",GroupRoutes);
 
         this.express.use("/api", router);
     }

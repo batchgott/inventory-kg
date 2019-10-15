@@ -43,7 +43,7 @@ export default abstract class BaseRepository<T extends Document> {
       }
     public async findOne(id: string) {
         try {
-            return await this._collection.findOne({_id: id});
+            return await this._collection.findOne({_id: new ObjectId(id)});
         } catch (error) {
             return {message: error};
         }
