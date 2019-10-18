@@ -15,6 +15,7 @@ const GroupSchema: Schema = new Schema({
         required: true,
         minlength: 7,
         maxlength: 7,
+        default:"#75736e",
         validate: [(c) => c.indexOf("#") === 0, "not a valid hex color"],
     },
     users: [{
