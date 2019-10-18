@@ -17,9 +17,9 @@ export default abstract class BaseRepository<T extends Document> {
         }
     }
 
-    public async update(id: string, item: T) {
+    public async update(item: T) {
         try {
-            return await this._collection.updateOne({_id: new ObjectId(id)}, item);
+            return await this._collection.updateOne({_id:item._id},{$set:item});
         } catch (error) {
             return {message: error};
         }

@@ -18,7 +18,7 @@ const GroupSchema: Schema = new Schema({
         validate: [(c) => c.indexOf("#") === 0, "not a valid hex color"],
     },
     users: [{
-            ref:"Users",
+            ref:"users",
             type:Schema.Types.ObjectId
         }],
     date: {

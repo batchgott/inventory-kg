@@ -20,6 +20,22 @@ class VerifyRoutes {
         }
     }
 
+    public async authAdmin(req,res,next){
+        const token=req.header("auth-token");
+        if(!token)return res.status(401).send("Access Denied");
+
+        try {
+            const decodedToken=jwt.verify(token,config.TOKEN_SECRET);
+            const user:IUser=await User.findOne({_id:decodedToken["_id"]});
+            if(user.role!=ERole.ADMIN)
+            return res.status(400).send("Only admins are allowed for this route");
+            next();
+        } catch (error) {
+            res.status(400).send("Invalid Token");
+        }
+    }
+
 }
 
 export const authSelfOrAdmin= new VerifyRoutes().authSelfOrAdmin;
+export const authAdmin=new VerifyRoutes().authAdmin;

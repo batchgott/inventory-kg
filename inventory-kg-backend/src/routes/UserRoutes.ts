@@ -82,7 +82,7 @@ class UserRoutes extends ARoutes<typeof UserRepository> {
             user.username=req.body.username;
             user.firstName=req.body.firstName;
             user.lastName=req.body.lastName;
-            res.json(await this.repository.update(req.params.userId,user));
+            res.json(await this.repository.update(user));
         });
 
         //TODO: Create route for updating password
