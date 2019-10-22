@@ -24,7 +24,8 @@ class UserRoutes extends ARoutes<typeof UserRepository> {
             res.json(await this.repository.find());
         });
 
-        //TODO: GetOne
+        //GetOne
+        this.router.get("/:userId",async(req,res)=>res.json(await this.repository.findOne(req.params.userId)));
 
         //Create / register
         this.router.post(["/","/register"], async (req, res) => {

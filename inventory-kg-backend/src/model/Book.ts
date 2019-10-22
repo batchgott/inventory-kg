@@ -4,8 +4,8 @@ import Group, { IGroup } from "../../src/model/Group";
 const BookSchema: Schema = new Schema({
     isbn: {
         type: String,
-        default: null,
         unique: true,
+        index: true,
         sparse: true,
     },
     title: {
