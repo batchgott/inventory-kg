@@ -6,6 +6,7 @@ import UserRoutes from "./routes/UserRoutes";
 import * as config from "./utils/config";
 import GroupRoutes from "./routes/GroupRoutes";
 import BookRoutes from "./routes/BookRoutes";
+import ToyRoutes from "./routes/ToyRoutes";
 
 class App {
     public express: express.Application;
@@ -28,6 +29,7 @@ class App {
         router.use("/users", UserRoutes);
         router.use("/groups",GroupRoutes);
         router.use("/books",BookRoutes);
+        router.use("/toys",ToyRoutes);
         this.express.use("/api", router);
     }
 

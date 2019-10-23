@@ -4,6 +4,7 @@ import { createGroupValidation, updateGroupValidation } from "./validation/group
 import { IGroup } from "../model/Group";
 import Group from "../model/Group";
 import { authAdmin } from "../utils/VerifyRoutes";
+import BookRepository from "../repositories/BookRepository";
 
 
 class GroupRoutes extends ARoutes<typeof GroupRepository> {
@@ -18,6 +19,8 @@ class GroupRoutes extends ARoutes<typeof GroupRepository> {
 
         //GetOne
         this.router.get("/:groupId",async(req,res)=>res.json(await this.repository.findOne(req.params.groupId)));
+
+        this.router.get("/:groupId/books",async(req,res)=>res.json(await BookRepository.getBooksByGroup(req.params.groupId)));
 
         //Create
         this.router.post("/",authAdmin,async(req,res)=>{

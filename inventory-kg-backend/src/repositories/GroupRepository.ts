@@ -1,5 +1,6 @@
 import BaseRepository from "./BaseReposetory";
 import { IGroup } from "../model/Group";
+import { IBook } from "../model/Book";
 
 
 
@@ -12,6 +13,8 @@ class GroupRepository extends BaseRepository<IGroup> {
     private constructor(){
         super("groups");
     }
+
+
 }
 
 export default GroupRepository.Instance;

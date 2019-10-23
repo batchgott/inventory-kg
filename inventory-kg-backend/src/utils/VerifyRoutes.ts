@@ -5,9 +5,11 @@ import UserRepository from "../repositories/UserRepository";
 import BaseRepository from "../repositories/BaseReposetory";
 import GroupRepository from "../repositories/GroupRepository";
 import BookRepository from "../repositories/BookRepository";
+import ToyRepository from "../repositories/ToyRepository";
 import { Document } from "mongoose";
 import { IGroup } from "../model/Group";
 import { IBook } from "../model/Book";
+import { IToy } from "../model/Toy";
 
 class VerifyRoutes {
 
@@ -43,7 +45,7 @@ class VerifyRoutes {
         }
     }
 
-    public async authGroupMemberOrAdmin(req,res,next){
+    public async authGroupMemberOrAdmin_Book(req,res,next){
         const token=req.header("auth-token");
         if(!token)return res.status(401).send("Access Denied");
         try {
@@ -71,8 +73,37 @@ class VerifyRoutes {
         }
     }
 
+    public async authGroupMemberOrAdmin_Toy(req,res,next){
+        const token=req.header("auth-token");
+        if(!token)return res.status(401).send("Access Denied");
+        try {
+            const decodedToken=jwt.verify(token,config.TOKEN_SECRET);
+            const user:IUser=await UserRepository.findOne(decodedToken["_id"]);
+            let group:IGroup;
+            let toy:IToy;
+            if(req.body.group)
+                group=await GroupRepository.findOne(req.body.group);
+            else{
+                toy=await ToyRepository.findOne(req.params.toyId);
+                group=await GroupRepository.findOne(toy.group);
+            }
+            let isGroupMember:boolean=false;
+            for(let u of group.users)
+                if(user._id==u){
+                    isGroupMember=true;
+                    break;
+                };
+            if(user.role!=ERole.ADMIN&&!isGroupMember)
+                return res.status(400).send("Only admins or group members are allowed for this route");
+            next();
+        } catch (error) {
+            res.status(400).send("Invalid Token");
+        }
+    }
+
 }
 
 export const authSelfOrAdmin= new VerifyRoutes().authSelfOrAdmin;
 export const authAdmin=new VerifyRoutes().authAdmin;
-export const authGroupMemberOrAdmin=new VerifyRoutes().authGroupMemberOrAdmin;
+export const authGroupMemberOrAdmin_Book=new VerifyRoutes().authGroupMemberOrAdmin_Book;
+export const authGroupMemberOrAdmin_Toy=new VerifyRoutes().authGroupMemberOrAdmin_Toy;

@@ -1,5 +1,6 @@
 import BaseRepository from "./BaseReposetory";
 import { IBook } from "../model/Book";
+import { ObjectId } from "bson";
 
 
 class BookRepository extends BaseRepository<IBook> {
@@ -14,6 +15,14 @@ class BookRepository extends BaseRepository<IBook> {
     public async unsetIsbn(book:IBook){
         try {
             return await this._collection.update({_id:book._id},{$unset:{isbn:1}});
+        } catch (error) {
+            return {message:error}
+        }
+    }
+
+    public async getBooksByGroup(groupId:string){
+        try {
+            return (await this._collection.find({group:new ObjectId(groupId)})).toArray();
         } catch (error) {
             return {message:error}
         }

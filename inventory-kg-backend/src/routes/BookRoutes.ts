@@ -3,7 +3,7 @@ import BookRepository from "../repositories/BookRepository";
 import { createBookValidation, updateBookValidation } from "./validation/bookValidation";
 import { IBook } from "../model/Book";
 import Book from "../model/Book";
-import { authGroupMemberOrAdmin } from "../utils/VerifyRoutes";
+import { authGroupMemberOrAdmin_Book } from "../utils/VerifyRoutes";
 
 
 class BookRoutes extends ARoutes<typeof BookRepository>{
@@ -21,7 +21,7 @@ class BookRoutes extends ARoutes<typeof BookRepository>{
         this.router.get("/:bookId",async(req,res)=>res.json(await this.repository.findOne(req.params.bookId)));
 
         //Create
-        this.router.post("/",authGroupMemberOrAdmin,async(req,res)=>{
+        this.router.post("/",authGroupMemberOrAdmin_Book,async(req,res)=>{
             const {error} = createBookValidation(req.body);
             if (error) { return res.status(400).send(error.details[0].message); }
             const book:IBook=new Book({
@@ -34,7 +34,7 @@ class BookRoutes extends ARoutes<typeof BookRepository>{
         });
 
         //Update
-        this.router.put("/:bookId",authGroupMemberOrAdmin,async(req,res)=>{
+        this.router.put("/:bookId",authGroupMemberOrAdmin_Book,async(req,res)=>{
             const {error}=updateBookValidation(req.body);
             if(error)return res.status(400).send(error.details[0].message);
             let book:IBook=await this.repository.findOne(req.params.bookId);
@@ -51,7 +51,7 @@ class BookRoutes extends ARoutes<typeof BookRepository>{
         });
 
         //Delete
-        this.router.delete("/:bookId",authGroupMemberOrAdmin,async(req,res)=>res.json(await this.repository.delete(req.params.bookId)));
+        this.router.delete("/:bookId",authGroupMemberOrAdmin_Book,async(req,res)=>res.json(await this.repository.delete(req.params.bookId)));
     }
 }
 
