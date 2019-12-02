@@ -1,5 +1,5 @@
-import mongoose, { Collection, Document } from "mongoose";
 import { ObjectId } from "bson";
+import mongoose, { Collection, Document } from "mongoose";
 
 export default abstract class BaseRepository<T extends Document> {
 
@@ -19,7 +19,7 @@ export default abstract class BaseRepository<T extends Document> {
 
     public async update(item: T) {
         try {
-            return await this._collection.updateOne({_id:item._id},{$set:item});
+            return await this._collection.updateOne({_id: item._id}, {$set: item});
         } catch (error) {
             return {message: error};
         }
@@ -34,8 +34,9 @@ export default abstract class BaseRepository<T extends Document> {
       }
     public async find(item?: T) {
         try {
-            if (!item)
+            if (!item) {
                 return await this._collection.find().toArray();
+            }
             return await this._collection.find(item).toArray();
         } catch (error) {
             return {message: error};

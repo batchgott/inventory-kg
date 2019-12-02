@@ -22,7 +22,7 @@ const BookSchema: Schema = new Schema({
     group: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref:"groups"
+        ref: "groups",
     },
 });
 

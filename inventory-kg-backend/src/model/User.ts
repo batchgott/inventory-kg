@@ -31,7 +31,7 @@ const UserSchema: Schema = new Schema({
     date: {
         type: Date,
         default: Date.now,
-    }
+    },
 });
 
 export interface IUser extends Document {

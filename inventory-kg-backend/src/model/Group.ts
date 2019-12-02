@@ -1,8 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
+import { type } from "os";
 import Book, { IBook } from "./Book";
 import Toy, { IToy } from "./Toy";
 import User, { IUser } from "./User";
-import { type } from "os";
 
 const GroupSchema: Schema = new Schema({
     name: {
@@ -15,12 +15,12 @@ const GroupSchema: Schema = new Schema({
         required: true,
         minlength: 7,
         maxlength: 7,
-        default:"#75736e",
+        default: "#75736e",
         validate: [(c) => c.indexOf("#") === 0, "not a valid hex color"],
     },
     users: [{
-            ref:"users",
-            type:Schema.Types.ObjectId
+            ref: "users",
+            type: Schema.Types.ObjectId,
         }],
     date: {
         type: Date,

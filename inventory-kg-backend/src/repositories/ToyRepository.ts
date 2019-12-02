@@ -1,15 +1,13 @@
-import BaseRepository from "./BaseReposetory";
 import { IToy } from "../model/Toy";
-
-
+import BaseRepository from "./BaseReposetory";
 
 class ToyRepository extends BaseRepository<IToy> {
 
-    private static _toyRepository:ToyRepository;
-    public static get Instance():ToyRepository{
-        return this._toyRepository||(this._toyRepository=new this());
+    private static _toyRepository: ToyRepository;
+    public static get Instance(): ToyRepository {
+        return this._toyRepository || (this._toyRepository = new this());
     }
-    private constructor(){
+    private constructor() {
         super("toys");
     }
 }
