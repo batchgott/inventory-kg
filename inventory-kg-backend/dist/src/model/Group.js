@@ -6,14 +6,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const Book_1 = __importDefault(require("./Book"));
-const Toy_1 = __importDefault(require("./Toy"));
-const User_1 = __importDefault(require("./User"));
 const GroupSchema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -25,15 +19,17 @@ const GroupSchema = new mongoose_1.Schema({
         required: true,
         minlength: 7,
         maxlength: 7,
+        default: "#75736e",
         validate: [(c) => c.indexOf("#") === 0, "not a valid hex color"],
     },
-    users: [User_1.default],
-    books: [Book_1.default],
-    toys: [Toy_1.default],
+    users: [{
+            ref: "users",
+            type: mongoose_1.Schema.Types.ObjectId,
+        }],
     date: {
         type: Date,
         default: Date.now,
     },
 });
-exports.default = mongoose_1.default.model("Groups", GroupSchema);
+exports.default = mongoose_1.default.model("groups", GroupSchema);
 //# sourceMappingURL=Group.js.map

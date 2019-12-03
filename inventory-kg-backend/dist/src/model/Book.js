@@ -6,17 +6,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const Group_1 = __importDefault(require("../../src/model/Group"));
 const BookSchema = new mongoose_1.Schema({
     isbn: {
         type: String,
-        default: null,
         unique: true,
+        index: true,
         sparse: true,
     },
     title: {
@@ -31,9 +27,10 @@ const BookSchema = new mongoose_1.Schema({
         default: Date.now,
     },
     group: {
-        type: Group_1.default,
+        type: mongoose_1.Schema.Types.ObjectId,
         required: true,
+        ref: "groups",
     },
 });
-exports.default = mongoose_1.default.model("Books", BookSchema);
+exports.default = mongoose_1.default.model("books", BookSchema);
 //# sourceMappingURL=Book.js.map

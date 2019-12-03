@@ -6,12 +6,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const Group_1 = __importDefault(require("./Group"));
 const ToySchema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -26,9 +22,10 @@ const ToySchema = new mongoose_1.Schema({
         default: Date.now,
     },
     group: {
-        type: Group_1.default,
+        type: mongoose_1.Schema.Types.ObjectId,
         required: true,
+        ref: "groups",
     },
 });
-exports.default = mongoose_1.default.model("Toys", ToySchema);
+exports.default = mongoose_1.default.model("toys", ToySchema);
 //# sourceMappingURL=Toy.js.map

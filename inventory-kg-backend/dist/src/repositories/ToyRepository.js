@@ -4,13 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const BaseReposetory_1 = __importDefault(require("./BaseReposetory"));
-class UserRepository extends BaseReposetory_1.default {
+class ToyRepository extends BaseReposetory_1.default {
     static get Instance() {
-        return this._userRepository || (this._userRepository = new this());
+        return this._toyRepository || (this._toyRepository = new this());
     }
     constructor() {
-        super("users");
+        super("toys");
     }
 }
-exports.default = UserRepository.Instance;
-//# sourceMappingURL=UserRepository.js.map
+exports.default = ToyRepository.Instance;
+//# sourceMappingURL=ToyRepository.js.map

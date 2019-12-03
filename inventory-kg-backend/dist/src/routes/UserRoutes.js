@@ -1,10 +1,9 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -20,45 +19,89 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const express_1 = __importDefault(require("express"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = __importStar(require("../../src/model/User"));
 const UserRepository_1 = __importDefault(require("../../src/repositories/UserRepository"));
-const validation_1 = require("../../src/utils/validation");
+const config = __importStar(require("../../src/utils/config"));
+const VerifyRoutes_1 = require("../../src/utils/VerifyRoutes");
 const ARoutes_1 = __importDefault(require("./ARoutes"));
+const userValidation_1 = require("./validation/userValidation");
 class UserRoutes extends ARoutes_1.default {
     constructor() {
         super();
-        this.router === express_1.default.Router();
-        this.routes();
+        // this.router = express.Router();
+        this.repository = UserRepository_1.default;
     }
     routes() {
+        // GetAll
         this.router.get("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
-            res.json(UserRepository_1.default.find());
+            res.json(yield this.repository.find());
         }));
-        this.router.post("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const user = new User_1.default({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                username: req.body.firstName + "." + req.body.lastName,
-                password: req.body.password,
-                role: User_1.ERole.USER,
-            });
-            const { error } = validation_1.registerValidation(user);
+        // GetOne
+        this.router.get("/:userId", (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.findOne(req.params.userId)); }));
+        // Create / register
+        this.router.post(["/", "/register"], (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { error } = userValidation_1.registerValidation(req.body);
             if (error) {
                 return res.status(400).send(error.details[0].message);
             }
+            const user = new User_1.default({
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                username: (String)(req.body.firstName).toLowerCase() + "." + (String)(req.body.lastName).toLowerCase(),
+                password: req.body.password,
+                role: User_1.ERole.USER,
+            });
             let usernameExists = yield User_1.default.findOne({ username: user.username });
-            let count = 1;
+            let count = 2;
+            let newUserName = user.username;
             while (usernameExists) {
-                user.username = user.username + count.toString();
+                newUserName = user.username + count.toString();
                 count++;
-                usernameExists = yield User_1.default.findOne({ username: user.username });
+                usernameExists = yield User_1.default.findOne({ username: newUserName });
             }
+            user.username = newUserName;
             const salt = yield bcryptjs_1.default.genSalt(10);
             const hashedPassword = yield bcryptjs_1.default.hash(user.password, salt);
             user.password = hashedPassword;
-            res.json(UserRepository_1.default.create(user));
+            res.json(yield this.repository.create(user));
         }));
+        // Login
+        this.router.post("/login", (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { error } = userValidation_1.loginValidation(req.body);
+            if (error) {
+                return res.status(400).send(error.details[0].message);
+            }
+            const user = yield User_1.default.findOne({ username: req.body.username });
+            if (!user) {
+                return res.status(400).send("Username does not exist");
+            }
+            const validPassword = yield bcryptjs_1.default.compare(req.body.password, user.password);
+            if (!validPassword) {
+                return res.status(400).send("Invalid password");
+            }
+            const token = jsonwebtoken_1.default.sign({ _id: user._id }, config.TOKEN_SECRET);
+            res.header("auth-token", token).send(token);
+        }));
+        // Delete
+        this.router.delete("/:userId", VerifyRoutes_1.authSelfOrAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () {
+            res.json(yield this.repository.delete(req.params.userId));
+        }));
+        // Update
+        // TODO: Check if username exists
+        this.router.put("/:userId", VerifyRoutes_1.authSelfOrAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { error } = userValidation_1.updateUserSelfValidation(req.body);
+            if (error) {
+                return res.status(400).send(error.details[0].message);
+            }
+            const user = yield User_1.default.findById(req.params.userId);
+            user.username = req.body.username;
+            user.firstName = req.body.firstName;
+            user.lastName = req.body.lastName;
+            res.json(yield this.repository.update(user));
+        }));
+        // TODO: Create route for updating password
+        // TODO: Create update route for administrator
     }
 }
 exports.default = new UserRoutes().router;

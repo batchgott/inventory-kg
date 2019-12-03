@@ -21,7 +21,7 @@ class VerifyRoutes {
 
         try {
             const decodedToken = jwt.verify(token, config.TOKEN_SECRET);
-            const user: IUser = await UserRepository.findOne(decodedToken._id);
+            const user: IUser = await UserRepository.findOne((decodedToken as any)._id);
             if (user._id != req.params.userId && user.role != ERole.ADMIN) {
             return res.status(400).send("No permission for this user");
             }
@@ -37,7 +37,7 @@ class VerifyRoutes {
 
         try {
             const decodedToken = jwt.verify(token, config.TOKEN_SECRET);
-            const user: IUser = await UserRepository.findOne(decodedToken._id);
+            const user: IUser = await UserRepository.findOne((decodedToken as any)._id);
             if (user.role != ERole.ADMIN) {
             return res.status(400).send("Only admins are allowed for this route");
             }
@@ -52,7 +52,7 @@ class VerifyRoutes {
         if (!token) {return res.status(401).send("Access Denied"); }
         try {
             const decodedToken = jwt.verify(token, config.TOKEN_SECRET);
-            const user: IUser = await UserRepository.findOne(decodedToken._id);
+            const user: IUser = await UserRepository.findOne((decodedToken as any)._id);
             let group: IGroup;
             let book: IBook;
             if (req.body.group) {
@@ -82,7 +82,7 @@ class VerifyRoutes {
         if (!token) {return res.status(401).send("Access Denied"); }
         try {
             const decodedToken = jwt.verify(token, config.TOKEN_SECRET);
-            const user: IUser = await UserRepository.findOne(decodedToken._id);
+            const user: IUser = await UserRepository.findOne((decodedToken as any)._id);
             let group: IGroup;
             let toy: IToy;
             if (req.body.group) {

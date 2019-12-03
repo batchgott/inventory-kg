@@ -6,12 +6,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const Group_1 = __importDefault(require("./Group"));
 var ERole;
 (function (ERole) {
     ERole[ERole["USER"] = 0] = "USER";
@@ -34,7 +30,7 @@ const UserSchema = new mongoose_1.Schema({
     password: {
         type: String,
         required: true,
-        min: 6,
+        minlength: 6,
     },
     role: {
         type: String,
@@ -46,7 +42,6 @@ const UserSchema = new mongoose_1.Schema({
         type: Date,
         default: Date.now,
     },
-    groups: [Group_1.default],
 });
-exports.default = mongoose_1.default.model("Users", UserSchema);
+exports.default = mongoose_1.default.model("users", UserSchema);
 //# sourceMappingURL=User.js.map

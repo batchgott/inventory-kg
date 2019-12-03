@@ -32,8 +32,6 @@ export interface IGroup extends Document {
     name: string;
     color: string;
     users: Array<IUser["_id"]>;
-    books: Array<IBook["_id"]>;
-    toys: Array<IToy["_id"]>;
     date: Date;
 }
 

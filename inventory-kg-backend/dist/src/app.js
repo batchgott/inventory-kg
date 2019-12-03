@@ -14,6 +14,9 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const BookRoutes_1 = __importDefault(require("./routes/BookRoutes"));
+const GroupRoutes_1 = __importDefault(require("./routes/GroupRoutes"));
+const ToyRoutes_1 = __importDefault(require("./routes/ToyRoutes"));
 const UserRoutes_1 = __importDefault(require("./routes/UserRoutes"));
 const config = __importStar(require("./utils/config"));
 class App {
@@ -31,10 +34,13 @@ class App {
     routes() {
         const router = express_1.default.Router();
         router.use("/users", UserRoutes_1.default);
+        router.use("/groups", GroupRoutes_1.default);
+        router.use("/books", BookRoutes_1.default);
+        router.use("/toys", ToyRoutes_1.default);
         this.express.use("/api", router);
     }
     connectDatabase() {
-        mongoose_1.default.connect(config.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => err ?
+        mongoose_1.default.connect(config.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, (err) => err ?
             console.log(err) :
             console.log("Connected to DB"));
     }

@@ -1,0 +1,10 @@
+<div class="group-wrapper">
+<mat-card class="group-card" *ngFor="let group of groups|async">
+  <div class="group-color" [ngStyle]="{'background': group.color}"></div>
+  <mat-card-content>
+    <mat-card-title class="group-title">
+      {{group.name}}
+    </mat-card-title>
+  </mat-card-content>
+</mat-card>
+</div>
