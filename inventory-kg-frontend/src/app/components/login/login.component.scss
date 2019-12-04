@@ -1,0 +1,18 @@
+.content-body{
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  margin-top: 20px;
+}
+.login-wrapper{
+  display: flex;
+  flex-flow: column;
+  width: 50%;
+}
+.spacing{
+  width: 25%;
+}
+.login-button{
+  width: 300px;
+  height: 40px;
+}
