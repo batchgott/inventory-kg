@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import User, { ERole, IUser } from "../../src/model/User";
 import UserRepository from "../../src/repositories/UserRepository";
 import * as config from "../../src/utils/config";
-import { authSelfOrAdmin } from "../../src/utils/VerifyRoutes";
+import { authSelfOrAdmin, authAdmin } from "../../src/utils/VerifyRoutes";
 import ARoutes from "./ARoutes";
 import { loginValidation, registerValidation, updateUserSelfValidation } from "./validation/userValidation";
 
@@ -28,7 +28,7 @@ class UserRoutes extends ARoutes<typeof UserRepository> {
         this.router.get("/:userId", async (req, res) => res.json(await this.repository.findOne(req.params.userId)));
 
         // Create / register
-        this.router.post(["/", "/register"], async (req, res) => {
+        this.router.post(["/", "/register"], authAdmin,async (req, res) => {
             const {error} = registerValidation(req.body);
             if (error) { return res.status(400).send(error.details[0].message); }
             const user: IUser = new User({
@@ -65,8 +65,18 @@ class UserRoutes extends ARoutes<typeof UserRepository> {
             const validPassword = await bcrypt.compare(req.body.password, user.password);
             if (!validPassword) {return res.status(400).send("Invalid password"); }
 
-            const token = jwt.sign({_id: user._id}, config.TOKEN_SECRET);
-            res.header("auth-token", token).send(token);
+            const token = jwt.sign({_id: user._id}, config.TOKEN_SECRET,{expiresIn:"2h"});
+            res.header("auth-token", token).json({
+                "_id":user._id,
+                "username":user.username,
+                "firstName":user.firstName,
+                "lastName":user.lastName,
+                "password":user.password,
+                "role":user.role,
+                "date":user.date,
+                "authToken":token,
+                "expirationDate":new Date(new Date().getTime()+ 7200000)
+            });
         });
 
         // Delete

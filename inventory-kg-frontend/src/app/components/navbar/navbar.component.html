@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
     <mat-icon routerLink="/" class="inventory-icon" aria-hidden="false" aria-label="Example user verified icon">library_books</mat-icon>
-      <span routerLink="/" class="navbar-text"><strong>Inventar</strong> Kindergarten Kirchberg am Wagram</span>
+      <span routerLink="/" class="navbar-text" *ngIf="windowWidth==null||windowWidth>560"><strong>Inventar</strong> Kindergarten Kirchberg am Wagram</span>
       <div class="spacer"></div>
       <button mat-flat-button routerLink="/login">Login</button>
     </mat-toolbar-row>

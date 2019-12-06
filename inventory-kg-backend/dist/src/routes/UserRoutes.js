@@ -40,7 +40,7 @@ class UserRoutes extends ARoutes_1.default {
         // GetOne
         this.router.get("/:userId", (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.findOne(req.params.userId)); }));
         // Create / register
-        this.router.post(["/", "/register"], (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.router.post(["/", "/register"], VerifyRoutes_1.authAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { error } = userValidation_1.registerValidation(req.body);
             if (error) {
                 return res.status(400).send(error.details[0].message);
@@ -80,8 +80,18 @@ class UserRoutes extends ARoutes_1.default {
             if (!validPassword) {
                 return res.status(400).send("Invalid password");
             }
-            const token = jsonwebtoken_1.default.sign({ _id: user._id }, config.TOKEN_SECRET);
-            res.header("auth-token", token).send(token);
+            const token = jsonwebtoken_1.default.sign({ _id: user._id }, config.TOKEN_SECRET, { expiresIn: "2h" });
+            res.header("auth-token", token).json({
+                "_id": user._id,
+                "username": user.username,
+                "firstName": user.firstName,
+                "lastName": user.lastName,
+                "password": user.password,
+                "role": user.role,
+                "date": user.date,
+                "authToken": token,
+                "expirationDate": new Date(new Date().getTime() + 7200000)
+            });
         }));
         // Delete
         this.router.delete("/:userId", VerifyRoutes_1.authSelfOrAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () {

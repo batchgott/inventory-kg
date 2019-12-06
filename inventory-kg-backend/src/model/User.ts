@@ -41,7 +41,6 @@ export interface IUser extends Document {
     password: string;
     role: ERole;
     date: Date;
-    groups: Array<IGroup["_id"]>;
 }
 
 export default mongoose.model<IUser>("users", UserSchema);
