@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MatSnackBar} from '@angular/material';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(private userService:UserService,
-              private snackBar:MatSnackBar) {
+              private snackBar:MatSnackBar,
+              private router:Router) {
   }
 
   ngOnInit() {
@@ -31,7 +33,7 @@ export class LoginComponent implements OnInit {
       let currentUser: Observable<User>;
       currentUser = this.userService.login(this.loginForm.get("username").value, this.loginForm.get("password").value);
       currentUser.subscribe((res: User) => {
-        console.log(res);
+        this.router.navigate(['']);
       },errorMessage=>{
         this.snackBar.open(errorMessage,"Schließen",{duration:10000,panelClass:['warn-snackbar']});
       });

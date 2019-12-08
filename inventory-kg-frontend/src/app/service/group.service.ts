@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 })
 export class GroupService {
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private http:HttpClient) { }
 
   public createGroup(group: Group){}
 
@@ -20,7 +20,7 @@ export class GroupService {
   public getGroupById(id: number){}
 
   public getGroups():Observable<Group[]>{
-    return this.httpClient.get<Group[]>(environment.apiURL+"groups");
+    return this.http.get<Group[]>(environment.apiURL+"groups");
   }
 
 }

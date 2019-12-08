@@ -65,7 +65,7 @@ class UserRoutes extends ARoutes<typeof UserRepository> {
             const validPassword = await bcrypt.compare(req.body.password, user.password);
             if (!validPassword) {return res.status(400).send("Invalid password"); }
 
-            const token = jwt.sign({_id: user._id}, config.TOKEN_SECRET,{expiresIn:"2h"});
+            const token = jwt.sign({_id: user._id}, config.TOKEN_SECRET,{expiresIn:"1d"});
             res.header("auth-token", token).json({
                 "_id":user._id,
                 "username":user.username,
@@ -75,9 +75,10 @@ class UserRoutes extends ARoutes<typeof UserRepository> {
                 "role":user.role,
                 "date":user.date,
                 "authToken":token,
-                "expirationDate":new Date(new Date().getTime()+ 7200000)
+                "expirationDate":new Date(new Date().getTime()+ 86400000)
             });
         });
+
 
         // Delete
         this.router.delete("/:userId", authSelfOrAdmin, async (req, res) => {

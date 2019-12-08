@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable, Subject, throwError} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, throwError} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {User} from '../model/user.model';
 import {catchError, tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  public currentUser:Subject<User>=new Subject<User>();
+  public user:BehaviorSubject<User>=new BehaviorSubject<User>(null);
+  private expirationTimer:any;
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private http:HttpClient,
+              private router:Router) { }
 
   public signup(firstName:string,lastName:string,password:string){
-    return this.httpClient.post(environment.apiURL+"users/register",{
+    return this.http.post(environment.apiURL+"users/register",{
       "firstName":firstName,
       "lastName":lastName,
       "password":password
@@ -23,13 +26,35 @@ export class UserService {
   }
 
   public login(username:string,password:string){
-    return this.httpClient.post<User>(environment.apiURL+"users/login",{
+    return this.http.post<User>(environment.apiURL+"users/login",{
       "username":username,
       "password":password
     }).pipe(catchError(this.handleError),tap(resData=>{
       const user:User=resData;
-      this.currentUser.next(user);
+      this.user.next(user);
+      localStorage.setItem('userData',JSON.stringify(user));
+      this.autoLogout(user.expirationDate);
     }));
+  }
+
+  public logout(){
+    this.user.next(null);
+    localStorage.removeItem("userData");
+    this.router.navigate(['']);
+    if (this.expirationTimer)clearTimeout(this.expirationTimer);
+    this.expirationTimer=null;
+  }
+  public autoLogin(){
+    const user:User=JSON.parse(localStorage.getItem('userData'));
+    if (!user)return;
+
+    if (!user.expirationDate||new Date()>user.expirationDate)return;
+    this.user.next(user);
+    this.autoLogout(user.expirationDate);
+  }
+
+  private autoLogout(expirationDate:Date){
+    this.expirationTimer=setTimeout(()=>this.logout(),new Date(expirationDate).getTime()-(new Date()).getTime());
   }
 
   public createUser(user: User){}
@@ -41,7 +66,7 @@ export class UserService {
   public getUserById(id: number){}
 
   public getUsers():Observable<User[]>{
-    return this.httpClient.get<User[]>(environment.apiURL+"users");
+    return this.http.get<User[]>(environment.apiURL+"users");
   }
 
   private handleError(error:HttpErrorResponse){

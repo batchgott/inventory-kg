@@ -3,6 +3,12 @@
     <mat-icon routerLink="/" class="inventory-icon" aria-hidden="false" aria-label="Example user verified icon">library_books</mat-icon>
       <span routerLink="/" class="navbar-text" *ngIf="windowWidth==null||windowWidth>560"><strong>Inventar</strong> Kindergarten Kirchberg am Wagram</span>
       <div class="spacer"></div>
-      <button mat-flat-button routerLink="/login">Login</button>
+      <button mat-flat-button routerLink="/login" *ngIf="!isAuthenticated">Login</button>
+      <button mat-flat-button [matMenuTriggerFor]="userMenu" *ngIf="isAuthenticated" class="user-button"><mat-icon class="user-icon">person</mat-icon>{{currentUser.username}}</button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item><mat-icon>settings</mat-icon>Einstellungen</button>
+        <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>Logout</button>
+      </mat-menu>
+
     </mat-toolbar-row>
 </mat-toolbar>
