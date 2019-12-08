@@ -14,7 +14,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatMenuModule, MatProgressSpinnerModule,
-  MatSnackBarModule, MatTabsModule
+  MatSnackBarModule, MatSortModule, MatTableModule, MatTabsModule
 } from '@angular/material';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -52,7 +52,9 @@ import { BookComponent } from './service/book/book.component';
     MatSnackBarModule,
     MatMenuModule,
     MatTabsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptorSevice,multi:true}],
   bootstrap: [AppComponent]
