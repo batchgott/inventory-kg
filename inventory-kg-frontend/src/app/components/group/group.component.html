@@ -1,4 +1,10 @@
 <mat-card>
+  <mat-card-header>
+    <div mat-card-avatar [ngStyle]="{'background':group?.color}"></div>
+    <mat-card-title>
+      {{group?.name}}
+    </mat-card-title>
+  </mat-card-header>
 <mat-tab-group>
   <mat-tab label="Bücher">
     <ng-template matTabContent>

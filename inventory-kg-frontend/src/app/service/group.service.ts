@@ -17,7 +17,9 @@ export class GroupService {
 
   public deleteGroup(id: number){}
 
-  public getGroupById(id: number){}
+  public getGroupById(id):Observable<Group>{
+    return this.http.get<Group>(environment.apiURL+"groups/"+id);
+  }
 
   public getGroups():Observable<Group[]>{
     return this.http.get<Group[]>(environment.apiURL+"groups");

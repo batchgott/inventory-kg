@@ -16,6 +16,7 @@ export class BooksComponent implements AfterViewInit {
 
   public books:Observable<Book[]>;
   public dataSource:MatTableDataSource<Book>;
+  public loadingData:boolean=true;
   displayedColumns: string[] = ['title', 'author', 'isbn'];
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -31,31 +32,20 @@ export class BooksComponent implements AfterViewInit {
     merge(this.sort.sortChange)
       .pipe(
         startWith({}),
-        switchMap(() => {
-          return this.route.paramMap.pipe(
+        switchMap(() =>
+          this.route.paramMap.pipe(
             switchMap((params: ParamMap) =>
-              this.bookService.getBooksByGroup(params.get('groupid'))))
-        }),
-        catchError(() => {
-          //TODO Error Handling
-          return of([]);
-        })
-      ).subscribe(data => {
+              this.bookService.getBooksByGroup(params.get('groupid'))))),
+        catchError(() => of([])),
+      map(books=>{
+        this.loadingData=false;
+        return books;
+      }))
+      .subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.sort = this.sort;
     });
 
-   this.route.paramMap.pipe(
-      switchMap((params: ParamMap) =>
-        this.bookService.getBooksByGroup(params.get('groupid'))),
-     map(books=>{
-
-       return books;
-     }))
-      .subscribe(books=>{
-        this.dataSource.sort=this.sort;
-          this.dataSource=new MatTableDataSource<Book>(books);
-    });
   }
 
 

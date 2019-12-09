@@ -12,3 +12,21 @@ and (max-width : 800px) {
     margin-right: 0;
   }
 }
+
+@media only screen
+and (max-width : 450px) {
+  .mat-card-avatar{
+    display: none;
+  }}
+
+
+mat-card-header mat-card-title{
+  font-size: 35px;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+
+.mat-card-avatar{
+  height: 50px;
+  width: 50px;
+}
