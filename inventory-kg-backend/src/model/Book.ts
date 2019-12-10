@@ -4,9 +4,7 @@ import Group, { IGroup } from "../../src/model/Group";
 const BookSchema: Schema = new Schema({
     isbn: {
         type: String,
-        unique: true,
-        index: true,
-        sparse: true,
+        required:false
     },
     title: {
         type: String,
@@ -14,6 +12,7 @@ const BookSchema: Schema = new Schema({
     },
     author: {
         type: String,
+        required:false
     },
     date: {
         type: Date,

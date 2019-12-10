@@ -1,7 +1,31 @@
 table {
   width: 100%;
 }
-.mat-form-field {
+.search-field {
   font-size: 14px;
   width: 100%;
+}
+.action-icon{
+  cursor: pointer;
+  margin-right: 5px;
+  padding: 3px;
+  &:hover{
+    background: #e3e3e3;
+    border-radius: 25%;
+  }
+}
+
+form{
+  margin: 20px 10px;
+  padding: 5px;
+  mat-form-field{
+    margin-right: 15px;
+  }
+}
+
+mat-expansion-panel{
+  margin: 20px 10px;
+}
+mat-card-title{
+  margin-bottom: 0;
 }

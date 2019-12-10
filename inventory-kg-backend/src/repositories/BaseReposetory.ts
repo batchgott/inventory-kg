@@ -1,5 +1,6 @@
 import { ObjectId } from "bson";
 import mongoose, { Collection, Document } from "mongoose";
+import { string } from "@hapi/joi";
 
 export default abstract class BaseRepository<T extends Document> {
 
@@ -11,7 +12,8 @@ export default abstract class BaseRepository<T extends Document> {
 
     public async create(item: T) {
         try {
-            return await this._collection.insertOne(item);
+            var insertOp=await this._collection.insertOne(item);
+            return await this.findOne(insertOp["insertedId"]);
         } catch (error) {
             return {message: error};
         }
@@ -42,9 +44,10 @@ export default abstract class BaseRepository<T extends Document> {
             return {message: error};
         }
       }
-    public async findOne(id: string) {
+    public async findOne(id: string|ObjectId) {
         try {
-            return await this._collection.findOne({_id: new ObjectId(id)});
+            var i=id.toString();
+            return await this._collection.findOne({_id: new ObjectId(i)});
         } catch (error) {
             return {message: error};
         }

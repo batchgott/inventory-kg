@@ -1,7 +1,34 @@
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target)" placeholder="Suchen">
+<mat-accordion *ngIf="userAllowedToEdit">
+  <mat-expansion-panel class="mat-elevation-z8">
+    <mat-expansion-panel-header>
+      <mat-card-title>
+       Buch hinzufügen
+      </mat-card-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="addBookForm" (ngSubmit)="addBook()">
+      <mat-form-field>
+        <mat-label>Titel</mat-label>
+        <input matInput type="text" formControlName="title" #title>
+        <mat-error *ngIf="addBookForm.get('title').errors">Ein Buchtitel ist erforderlich</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Autor</mat-label>
+        <input type="text" matInput formControlName="author">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>ISBN</mat-label>
+        <input type="text" matInput formControlName="isbn">
+      </mat-form-field>
+      <button [disabled]="addBookForm.invalid" mat-raised-button color="primary" type="submit">Erstellen</button>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>
+<mat-form-field class="search-field" appearance="fill">
+  <mat-label>Nach Buch suchen</mat-label>
+  <mat-icon matPrefix>search</mat-icon>
+  <input matInput (keyup)="applyFilter($event.target)">
 </mat-form-field>
-<table mat-table [dataSource]="dataSource" matSortDisableClear matSort class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" matSortDisableClear matSort>
   <ng-container matColumnDef="title">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Titel </th>
     <td mat-cell *matCellDef="let book"> {{book.title}} </td>
@@ -15,6 +42,14 @@
   <ng-container matColumnDef="isbn">
     <th mat-header-cell *matHeaderCellDef> ISBN </th>
     <td mat-cell *matCellDef="let book"> {{book.isbn}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Aktionen </th>
+    <td mat-cell *matCellDef="let book">
+      <mat-icon class="action-icon" matTooltip="Buch löschen">delete</mat-icon>
+      <mat-icon class="action-icon" matTooltip="Buch bearbeiten">edit</mat-icon>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -33,9 +33,11 @@ const UserSchema = new mongoose_1.Schema({
         minlength: 6,
     },
     role: {
-        type: String,
-        enum: ["USER", "ADMIN"],
-        default: "USER",
+        type: Number,
+        min: 0,
+        max: 1,
+        default: 0,
+        validate: [(c) => c === 0 || c === 1, "not an integer/enum"],
         required: true,
     },
     date: {

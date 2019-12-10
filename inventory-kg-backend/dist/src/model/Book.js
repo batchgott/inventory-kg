@@ -11,9 +11,7 @@ const mongoose_1 = __importStar(require("mongoose"));
 const BookSchema = new mongoose_1.Schema({
     isbn: {
         type: String,
-        unique: true,
-        index: true,
-        sparse: true,
+        required: false
     },
     title: {
         type: String,
@@ -21,6 +19,7 @@ const BookSchema = new mongoose_1.Schema({
     },
     author: {
         type: String,
+        required: false
     },
     date: {
         type: Date,

@@ -9,12 +9,12 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
 import {
   MatButtonModule,
-  MatCardModule,
+  MatCardModule, MatDividerModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
   MatMenuModule, MatProgressSpinnerModule,
-  MatSnackBarModule, MatSortModule, MatTableModule, MatTabsModule
+  MatSnackBarModule, MatSortModule, MatTableModule, MatTabsModule, MatTooltipModule
 } from '@angular/material';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -24,7 +24,6 @@ import {AuthInterceptorSevice} from './shared/auth-interceptor.service';
 import { GroupComponent } from './components/group/group.component';
 import { BooksComponent } from './components/group/books/books.component';
 import { ToysComponent } from './components/group/toys/toys.component';
-import { BookComponent } from './service/book/book.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +53,10 @@ import { BookComponent } from './service/book/book.component';
     MatTabsModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatTooltipModule,
+    MatDividerModule,
+    MatExpansionModule
   ],
   providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptorSevice,multi:true}],
   bootstrap: [AppComponent]

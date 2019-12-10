@@ -20,7 +20,8 @@ class BaseRepository {
     create(item) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield this._collection.insertOne(item);
+                var insertOp = yield this._collection.insertOne(item);
+                return yield this.findOne(insertOp["insertedId"]);
             }
             catch (error) {
                 return { message: error };
@@ -63,7 +64,8 @@ class BaseRepository {
     findOne(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield this._collection.findOne({ _id: new bson_1.ObjectId(id) });
+                var i = id.toString();
+                return yield this._collection.findOne({ _id: new bson_1.ObjectId(i) });
             }
             catch (error) {
                 return { message: error };

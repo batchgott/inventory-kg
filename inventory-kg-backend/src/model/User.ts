@@ -23,10 +23,15 @@ const UserSchema: Schema = new Schema({
         minlength: 6,
     },
     role: {
-        type: String,
-        enum: ["USER", "ADMIN"],
-        default: "USER",
+        type: Number,
+        min: 0,
+        max: 1,
+        default: 0,
+        validate: [(c) => c===0||c===1, "not an integer/enum"],
         required: true,
+        // type: String,
+        // enum: ["USER", "ADMIN"],
+        // default: "USER",
     },
     date: {
         type: Date,

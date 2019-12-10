@@ -11,6 +11,7 @@ class UserRepository extends BaseRepository<IUser> {
     private constructor() {
         super("users");
     }
+    
 
 }
 
