@@ -6,18 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const joi_1 = __importDefault(require("@hapi/joi"));
 exports.createBookValidation = (book) => {
     const schema = {
-        isbn: joi_1.default.string().optional().allow(""),
+        isbn: joi_1.default.string().optional().allow("").allow(null),
         title: joi_1.default.string().required(),
-        author: joi_1.default.string().optional().allow(""),
+        author: joi_1.default.string().optional().allow("").allow(null),
         group: joi_1.default.string().required(),
     };
     return joi_1.default.validate(book, schema);
 };
 exports.updateBookValidation = (book) => {
     const schema = {
-        isbn: joi_1.default.string().optional().allow(""),
+        isbn: joi_1.default.string().optional().allow("").allow(null),
         title: joi_1.default.string().required(),
-        author: joi_1.default.string().optional().allow(""),
+        author: joi_1.default.string().optional().allow("").allow(null),
     };
     return joi_1.default.validate(book, schema);
 };

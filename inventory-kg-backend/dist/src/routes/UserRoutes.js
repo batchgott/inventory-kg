@@ -34,11 +34,11 @@ class UserRoutes extends ARoutes_1.default {
     }
     routes() {
         // GetAll
-        this.router.get("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.router.get("/", VerifyRoutes_1.authAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () {
             res.json(yield this.repository.find());
         }));
         // GetOne
-        this.router.get("/:userId", (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.findOne(req.params.userId)); }));
+        this.router.get("/:userId", VerifyRoutes_1.authAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.findOne(req.params.userId)); }));
         // Create / register
         this.router.post(["/", "/register"], VerifyRoutes_1.authAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { error } = userValidation_1.registerValidation(req.body);

@@ -20,12 +20,12 @@ class UserRoutes extends ARoutes<typeof UserRepository> {
     protected routes(): void {
 
         // GetAll
-        this.router.get("/", async (req, res) => {
+        this.router.get("/",authAdmin, async (req, res) => {
             res.json(await this.repository.find());
         });
 
         // GetOne
-        this.router.get("/:userId", async (req, res) => res.json(await this.repository.findOne(req.params.userId)));
+        this.router.get("/:userId",authAdmin, async (req, res) => res.json(await this.repository.findOne(req.params.userId)));
 
         // Create / register
         this.router.post(["/", "/register"], authAdmin,async (req, res) => {

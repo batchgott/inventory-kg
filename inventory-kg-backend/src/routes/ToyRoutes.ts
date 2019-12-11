@@ -1,6 +1,6 @@
 import Toy, { IToy } from "../model/Toy";
 import ToyRepository from "../repositories/ToyRepository";
-import { authGroupMemberOrAdmin_Toy } from "../utils/VerifyRoutes";
+import { authGroupMemberOrAdmin_Toy, authUser } from "../utils/VerifyRoutes";
 import ARoutes from "./ARoutes";
 import { createToyValidation, updateToyValidation } from "./validation/toyValidation";
 
@@ -12,10 +12,10 @@ class ToyRoutes extends ARoutes<typeof ToyRepository> {
     }
     protected routes(): void {
         // GetAll
-        this.router.get("/", async (req, res) => res.json(await this.repository.find()));
+        this.router.get("/",authUser, async (req, res) => res.json(await this.repository.find()));
 
         // GetOne
-        this.router.get("/:toyId", async (req, res) => res.json(await this.repository.findOne(req.params.toyId)));
+        this.router.get("/:toyId",authUser, async (req, res) => res.json(await this.repository.findOne(req.params.toyId)));
 
         // Create
         this.router.post("/", authGroupMemberOrAdmin_Toy, async (req, res) => {

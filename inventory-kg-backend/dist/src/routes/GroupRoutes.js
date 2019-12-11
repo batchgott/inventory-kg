@@ -24,10 +24,10 @@ class GroupRoutes extends ARoutes_1.default {
     }
     routes() {
         // GetAll
-        this.router.get("/", (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.find()); }));
+        this.router.get("/", VerifyRoutes_1.authUser, (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.find()); }));
         // GetOne
-        this.router.get("/:groupId", (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.findOne(req.params.groupId)); }));
-        this.router.get("/:groupId/books", (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield BookRepository_1.default.getBooksByGroup(req.params.groupId)); }));
+        this.router.get("/:groupId", VerifyRoutes_1.authUser, (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.findOne(req.params.groupId)); }));
+        this.router.get("/:groupId/books", VerifyRoutes_1.authUser, (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield BookRepository_1.default.getBooksByGroup(req.params.groupId)); }));
         // Create
         this.router.post("/", VerifyRoutes_1.authAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { error } = groupValidation_1.createGroupValidation(req.body);

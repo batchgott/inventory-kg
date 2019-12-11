@@ -46,6 +46,25 @@ class VerifyRoutes {
             }
         });
     }
+    authUser(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const token = req.header("auth-token");
+            if (!token) {
+                return res.status(401).send("Access Denied");
+            }
+            try {
+                const decodedToken = jsonwebtoken_1.default.verify(token, config.TOKEN_SECRET);
+                const user = yield UserRepository_1.default.findOne(decodedToken._id);
+                if (!user) {
+                    return res.status(400).send("You need to be a User to see this route");
+                }
+                next();
+            }
+            catch (error) {
+                res.status(400).send("Invalid Token");
+            }
+        });
+    }
     authAdmin(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const token = req.header("auth-token");
@@ -140,4 +159,5 @@ exports.authSelfOrAdmin = new VerifyRoutes().authSelfOrAdmin;
 exports.authAdmin = new VerifyRoutes().authAdmin;
 exports.authGroupMemberOrAdmin_Book = new VerifyRoutes().authGroupMemberOrAdmin_Book;
 exports.authGroupMemberOrAdmin_Toy = new VerifyRoutes().authGroupMemberOrAdmin_Toy;
+exports.authUser = new VerifyRoutes().authUser;
 //# sourceMappingURL=VerifyRoutes.js.map

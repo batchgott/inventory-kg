@@ -23,9 +23,9 @@ class BookRoutes extends ARoutes_1.default {
     }
     routes() {
         // GetAll
-        this.router.get("/", (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.find()); }));
+        this.router.get("/", VerifyRoutes_1.authUser, (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.find()); }));
         // GetOne
-        this.router.get("/:bookId", (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.findOne(req.params.bookId)); }));
+        this.router.get("/:bookId", VerifyRoutes_1.authUser, (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.findOne(req.params.bookId)); }));
         // Create
         this.router.post("/", VerifyRoutes_1.authGroupMemberOrAdmin_Book, (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { error } = bookValidation_1.createBookValidation(req.body);

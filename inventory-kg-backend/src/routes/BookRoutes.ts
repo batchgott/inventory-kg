@@ -1,7 +1,7 @@
 import { IBook } from "../model/Book";
 import Book from "../model/Book";
 import BookRepository from "../repositories/BookRepository";
-import { authGroupMemberOrAdmin_Book } from "../utils/VerifyRoutes";
+import { authGroupMemberOrAdmin_Book,authUser } from "../utils/VerifyRoutes";
 import ARoutes from "./ARoutes";
 import { createBookValidation, updateBookValidation } from "./validation/bookValidation";
 
@@ -14,10 +14,10 @@ class BookRoutes extends ARoutes<typeof BookRepository> {
 
     protected routes(): void {
         // GetAll
-        this.router.get("/", async (req, res) => res.json(await this.repository.find()));
+        this.router.get("/",authUser, async (req, res) => res.json(await this.repository.find()));
 
         // GetOne
-        this.router.get("/:bookId", async (req, res) => res.json(await this.repository.findOne(req.params.bookId)));
+        this.router.get("/:bookId",authUser, async (req, res) => res.json(await this.repository.findOne(req.params.bookId)));
 
         // Create
         this.router.post("/", authGroupMemberOrAdmin_Book, async (req, res) => {

@@ -31,6 +31,21 @@ class VerifyRoutes {
         }
     }
 
+    public async authUser(req,res,next){
+        const token = req.header("auth-token");
+        if (!token) {return res.status(401).send("Access Denied"); }
+        try {
+            const decodedToken = jwt.verify(token, config.TOKEN_SECRET);
+            const user: IUser = await UserRepository.findOne((decodedToken as any)._id);
+            if (!user) {
+            return res.status(400).send("You need to be a User to see this route");
+            }
+            next();
+        } catch (error) {
+            res.status(400).send("Invalid Token");
+        }
+    }
+
     public async authAdmin(req, res, next) {
         const token = req.header("auth-token");
         if (!token) {return res.status(401).send("Access Denied"); }
@@ -113,3 +128,4 @@ export const authSelfOrAdmin = new VerifyRoutes().authSelfOrAdmin;
 export const authAdmin = new VerifyRoutes().authAdmin;
 export const authGroupMemberOrAdmin_Book = new VerifyRoutes().authGroupMemberOrAdmin_Book;
 export const authGroupMemberOrAdmin_Toy = new VerifyRoutes().authGroupMemberOrAdmin_Toy;
+export const authUser=new VerifyRoutes().authUser;

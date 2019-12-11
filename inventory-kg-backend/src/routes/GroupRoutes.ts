@@ -2,7 +2,7 @@ import { IGroup } from "../model/Group";
 import Group from "../model/Group";
 import BookRepository from "../repositories/BookRepository";
 import GroupRepository from "../repositories/GroupRepository";
-import { authAdmin } from "../utils/VerifyRoutes";
+import { authAdmin,authUser } from "../utils/VerifyRoutes";
 import ARoutes from "./ARoutes";
 import { createGroupValidation, updateGroupValidation } from "./validation/groupValidation";
 
@@ -14,12 +14,12 @@ class GroupRoutes extends ARoutes<typeof GroupRepository> {
     }
        protected routes(): void {
         // GetAll
-        this.router.get("/", async (req, res) => res.json(await this.repository.find()));
+        this.router.get("/",authUser, async (req, res) => res.json(await this.repository.find()));
 
         // GetOne
-        this.router.get("/:groupId", async (req, res) => res.json(await this.repository.findOne(req.params.groupId)));
+        this.router.get("/:groupId",authUser, async (req, res) => res.json(await this.repository.findOne(req.params.groupId)));
 
-        this.router.get("/:groupId/books", async (req, res) => res.json(await BookRepository.getBooksByGroup(req.params.groupId)));
+        this.router.get("/:groupId/books",authUser, async (req, res) => res.json(await BookRepository.getBooksByGroup(req.params.groupId)));
 
         // Create
         this.router.post("/", authAdmin, async (req, res) => {
