@@ -26,7 +26,7 @@ import { BooksComponent } from './components/group/books/books.component';
 import { ToysComponent } from './components/group/toys/toys.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { EditBookComponent } from './components/group/books/edit-book/edit-book.component';
-import { LoginPageComponent } from './components/login-page/login-page.component';
+
 
 @NgModule({
   declarations: [
@@ -38,8 +38,7 @@ import { LoginPageComponent } from './components/login-page/login-page.component
     BooksComponent,
     ToysComponent,
     ConfirmationDialogComponent,
-    EditBookComponent,
-    LoginPageComponent
+    EditBookComponent
   ],
   imports: [
     BrowserModule,

@@ -40,7 +40,7 @@ export class UserService {
   public logout(){
     this.user.next(null);
     localStorage.removeItem("userData");
-    this.router.navigate(['']);
+    this.router.navigate(['login']);
     if (this.expirationTimer)clearTimeout(this.expirationTimer);
     this.expirationTimer=null;
   }
