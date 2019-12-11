@@ -9,7 +9,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
 import {
   MatButtonModule,
-  MatCardModule, MatDividerModule, MatExpansionModule,
+  MatCardModule, MatDialogModule, MatDividerModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
@@ -24,6 +24,9 @@ import {AuthInterceptorSevice} from './shared/auth-interceptor.service';
 import { GroupComponent } from './components/group/group.component';
 import { BooksComponent } from './components/group/books/books.component';
 import { ToysComponent } from './components/group/toys/toys.component';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
+import { EditBookComponent } from './components/group/books/edit-book/edit-book.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { ToysComponent } from './components/group/toys/toys.component';
     DashboardComponent,
     GroupComponent,
     BooksComponent,
-    ToysComponent
+    ToysComponent,
+    ConfirmationDialogComponent,
+    EditBookComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
@@ -56,9 +62,11 @@ import { ToysComponent } from './components/group/toys/toys.component';
     MatSortModule,
     MatTooltipModule,
     MatDividerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule
   ],
   providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptorSevice,multi:true}],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[ConfirmationDialogComponent,EditBookComponent]
 })
 export class AppModule { }

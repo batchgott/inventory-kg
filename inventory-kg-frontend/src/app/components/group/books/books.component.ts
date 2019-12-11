@@ -4,12 +4,14 @@ import {Book} from '../../../model/book.model';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {BookService} from '../../../service/book.service';
 import {catchError, map, startWith, switchMap, take} from 'rxjs/operators';
-import {MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {UserService} from '../../../service/user.service';
 import {ERole, User} from '../../../model/user.model';
 import {GroupService} from '../../../service/group.service';
 import {Group} from '../../../model/group.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ConfirmationDialogComponent} from '../../../shared/confirmation-dialog/confirmation-dialog.component';
+import {EditBookComponent} from './edit-book/edit-book.component';
 
 
 @Component({
@@ -40,7 +42,8 @@ export class BooksComponent implements OnInit {
               private bookService:BookService,
               private userService:UserService,
               private groupService:GroupService,
-              private snackBar:MatSnackBar) { }
+              private snackBar:MatSnackBar,
+              public dialog:MatDialog) { }
 
   applyFilter(filterTarget) {
     this.dataSource.filter = filterTarget.value.trim().toLowerCase();
@@ -94,5 +97,50 @@ export class BooksComponent implements OnInit {
       },error =>
         this.snackBar.open("Buch konnte nicht hinzugefügt werden","Schließen",{duration:5000,panelClass:['warn-snackbar']})
     )
+  }
+
+  delete(book) {
+    const dialogRef=this.dialog.open(ConfirmationDialogComponent,{
+      width:"350px",
+      data:`Wollen Sie das Buch "${book.title}" wirklich löschen?`
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      if (result){
+        this.bookService.deleteBook(book._id).pipe(take(1)).subscribe(
+          data=>{
+            let books=this.dataSource.data;
+            const index = books.indexOf(book, 0);
+            if (index > -1) {
+              books.splice(index, 1);
+            }
+            this.dataSource=new MatTableDataSource<Book>(books);
+          },error =>
+            this.snackBar.open("Buch konnte nicht gelöscht werden","Schließen",{duration:5000,panelClass:['warn-snackbar']})
+        );
+      }
+    });
+  }
+
+  edit(book) {
+    const dialogRef=this.dialog.open(EditBookComponent,{
+      width:"600px",
+      data:book
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      if (result){
+        let updatedBook={...book,title:result.title,author:result.author,isbn:result.isbn};
+        this.bookService.updateBook(updatedBook).pipe(take(1)).subscribe(
+          data=>{
+            let books=this.dataSource.data;
+            const index = books.indexOf(book, 0);
+            if (index > -1) {
+              books[index]=updatedBook;
+            }
+            this.dataSource=new MatTableDataSource<Book>(books);
+          },error =>{
+            this.snackBar.open("Buch konnte nicht bearbeitet werden","Schließen",{duration:5000,panelClass:['warn-snackbar']});}
+        );
+      }
+    });
   }
 }

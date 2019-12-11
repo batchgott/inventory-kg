@@ -1,5 +1,5 @@
 <mat-accordion *ngIf="userAllowedToEdit">
-  <mat-expansion-panel class="mat-elevation-z8">
+  <mat-expansion-panel class="mat-elevation-z8" (opened)="title.focus()">
     <mat-expansion-panel-header>
       <mat-card-title>
        Buch hinzufügen
@@ -47,8 +47,10 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Aktionen </th>
     <td mat-cell *matCellDef="let book">
-      <mat-icon class="action-icon" matTooltip="Buch löschen">delete</mat-icon>
-      <mat-icon class="action-icon" matTooltip="Buch bearbeiten">edit</mat-icon>
+      <mat-icon class="action-icon" matTooltip="Buch löschen"
+                (click)="delete(book)">delete</mat-icon>
+      <mat-icon class="action-icon" matTooltip="Buch bearbeiten"
+      (click)="edit(book)">edit</mat-icon>
     </td>
   </ng-container>
 
