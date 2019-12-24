@@ -1,0 +1,33 @@
+.outer-wrapper{
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 5px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+
+  p{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    line-height: 1.5;
+    height: 30px;
+    padding-top: 3px;
+  }
+
+  &:hover{
+    background: #efefef;
+  }
+}
+
+@media only screen
+and (max-width : 1200px) {
+  .outer-wrapper{
+    margin-right: 0;
+    margin-left: 0;
+  }}
+
+.group-color-box{
+  height: 30px;
+  width: 30px;
+}

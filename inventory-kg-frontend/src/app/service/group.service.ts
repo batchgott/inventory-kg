@@ -25,4 +25,5 @@ export class GroupService {
     return this.http.get<Group[]>(environment.apiURL+"groups");
   }
 
+
 }

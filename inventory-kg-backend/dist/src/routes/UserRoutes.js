@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -26,6 +27,7 @@ const config = __importStar(require("../../src/utils/config"));
 const VerifyRoutes_1 = require("../../src/utils/VerifyRoutes");
 const ARoutes_1 = __importDefault(require("./ARoutes"));
 const userValidation_1 = require("./validation/userValidation");
+const GroupRepository_1 = __importDefault(require("../repositories/GroupRepository"));
 class UserRoutes extends ARoutes_1.default {
     constructor() {
         super();
@@ -39,6 +41,7 @@ class UserRoutes extends ARoutes_1.default {
         }));
         // GetOne
         this.router.get("/:userId", VerifyRoutes_1.authAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield this.repository.findOne(req.params.userId)); }));
+        this.router.get("/:userId/groups", VerifyRoutes_1.authAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () { return res.json(yield GroupRepository_1.default.getGroupsByUser(req.params.userId)); }));
         // Create / register
         this.router.post(["/", "/register"], VerifyRoutes_1.authAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { error } = userValidation_1.registerValidation(req.body);

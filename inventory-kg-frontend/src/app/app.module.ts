@@ -13,7 +13,7 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
-  MatMenuModule, MatProgressSpinnerModule,
+  MatMenuModule, MatProgressSpinnerModule, MatRippleModule,
   MatSnackBarModule, MatSortModule, MatTableModule, MatTabsModule, MatTooltipModule
 } from '@angular/material';
 import { LoginComponent } from './components/login/login.component';
@@ -26,6 +26,9 @@ import { BooksComponent } from './components/group/books/books.component';
 import { ToysComponent } from './components/group/toys/toys.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { EditBookComponent } from './components/group/books/edit-book/edit-book.component';
+import { UserManagementComponent } from './components/user-management/user-management.component';
+import { UserTileComponent } from './components/user-management/user-tile/user-tile.component';
+import { RemoveAdminPipe } from './components/user-management/remove-admin.pipe';
 
 
 @NgModule({
@@ -38,7 +41,10 @@ import { EditBookComponent } from './components/group/books/edit-book/edit-book.
     BooksComponent,
     ToysComponent,
     ConfirmationDialogComponent,
-    EditBookComponent
+    EditBookComponent,
+    UserManagementComponent,
+    UserTileComponent,
+    RemoveAdminPipe
   ],
   imports: [
     BrowserModule,
@@ -62,7 +68,8 @@ import { EditBookComponent } from './components/group/books/edit-book/edit-book.
     MatTooltipModule,
     MatDividerModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    MatRippleModule
   ],
   providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptorSevice,multi:true}],
   bootstrap: [AppComponent],

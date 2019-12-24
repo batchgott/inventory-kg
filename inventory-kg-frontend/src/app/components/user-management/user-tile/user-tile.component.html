@@ -1,0 +1,6 @@
+
+
+<mat-card class="outer-wrapper" matRipple ><p>{{user.username}}</p><div class="spacer"></div>
+  <div class="group-color-box" [ngStyle]="{'background':group.color}" matTooltipPosition="before" [matTooltip]="group.name" *ngFor="let group of groups|async"></div>
+</mat-card>
+

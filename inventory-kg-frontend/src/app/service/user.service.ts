@@ -5,6 +5,7 @@ import {environment} from '../../environments/environment';
 import {User} from '../model/user.model';
 import {catchError, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {Group} from '../model/group.model';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,10 @@ export class UserService {
   public deleteUser(id: number){}
 
   public getUserById(id: number){}
+
+  public getGroupsByUser(userId):Observable<Group[]>{
+    return this.http.get<Group[]>(environment.apiURL+`users/${userId}/groups`);
+  }
 
   public getUsers():Observable<User[]>{
     return this.http.get<User[]>(environment.apiURL+"users");

@@ -8,6 +8,7 @@ import * as config from "../../src/utils/config";
 import { authSelfOrAdmin, authAdmin } from "../../src/utils/VerifyRoutes";
 import ARoutes from "./ARoutes";
 import { loginValidation, registerValidation, updateUserSelfValidation } from "./validation/userValidation";
+import GroupRepository from "../repositories/GroupRepository";
 
 class UserRoutes extends ARoutes<typeof UserRepository> {
 
@@ -26,6 +27,8 @@ class UserRoutes extends ARoutes<typeof UserRepository> {
 
         // GetOne
         this.router.get("/:userId",authAdmin, async (req, res) => res.json(await this.repository.findOne(req.params.userId)));
+
+        this.router.get("/:userId/groups",authAdmin,async(req,res)=>res.json(await GroupRepository.getGroupsByUser(req.params.userId)))
 
         // Create / register
         this.router.post(["/", "/register"], authAdmin,async (req, res) => {

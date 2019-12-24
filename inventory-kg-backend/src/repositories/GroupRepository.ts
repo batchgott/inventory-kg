@@ -1,6 +1,7 @@
 import { IBook } from "../model/Book";
 import { IGroup } from "../model/Group";
 import BaseRepository from "./BaseReposetory";
+import { ObjectId } from "bson";
 
 class GroupRepository extends BaseRepository<IGroup> {
 
@@ -10,6 +11,14 @@ class GroupRepository extends BaseRepository<IGroup> {
     }
     private constructor() {
         super("groups");
+    }
+
+    public async getGroupsByUser(userId:string){
+        try {
+            return await (await this._collection.find({users: userId})).toArray();
+        } catch (error) {
+            return {message:error}
+        }
     }
 
 }
