@@ -6,6 +6,7 @@ import {GroupComponent} from '../components/group/group.component';
 import {AuthGuard} from './auth-guard';
 import {UserManagementComponent} from '../components/user-management/user-management.component';
 import {AdminAuthGuard} from './admin-auth-guard';
+import {AddUserComponent} from '../components/user-management/add-user/add-user.component';
 
 
 const routes: Routes = [
@@ -14,7 +15,10 @@ const routes: Routes = [
       {path:"",component:DashboardComponent},
       {path:':groupid',component:GroupComponent,}
     ]},
-  {path:'users',component:UserManagementComponent,canActivate:[AdminAuthGuard]},
+  {path:'users',canActivate:[AdminAuthGuard],children:[
+      {path: "",component: UserManagementComponent},
+      {path: "new",component: AddUserComponent}
+    ]},
   {path:'login',component:LoginComponent}];
 
 @NgModule({

@@ -18,8 +18,8 @@ export class UserService {
   constructor(private http:HttpClient,
               private router:Router) { }
 
-  public signup(firstName:string,lastName:string,password:string){
-    return this.http.post(environment.apiURL+"users/register",{
+  public signup(firstName:string,lastName:string,password:string):Observable<User>{
+    return this.http.post<User>(environment.apiURL+"users/register",{
       "firstName":firstName,
       "lastName":lastName,
       "password":password
@@ -58,7 +58,6 @@ export class UserService {
     this.expirationTimer=setTimeout(()=>this.logout(),new Date(expirationDate).getTime()-(new Date()).getTime());
   }
 
-  public createUser(user: User){}
 
   public updateUser(user: User){}
 

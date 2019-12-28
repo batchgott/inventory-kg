@@ -1,3 +1,31 @@
 .top-spacer{
   height: 5px;
 }
+
+.add-user-button{
+  cursor: pointer;
+  margin-bottom: 20px;
+  box-shadow: none;
+  horiz-align: center;
+  font-size: 20px;
+
+  display: block;
+  padding: 7px 45px;
+  margin-right: auto;
+  margin-left: auto;
+  mat-icon{
+    font-size: 23px;
+  }
+}
+
+@media only screen
+and (max-width : 1200px) {
+  .add-user-button{
+    margin-right: 0;
+    margin-left: 0;
+  }}
+
+button-wrapper{
+  display: flex;
+  justify-content: center;
+}

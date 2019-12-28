@@ -1,2 +1,3 @@
 <div class="top-spacer"></div>
 <app-user-tile [user]="user" *ngFor="let user of users|async|removeAdmin"></app-user-tile>
+<div class="button-wrapper"><button [routerLink]="['/users','new']" class="add-user-button" mat-stroked-button color="primary"><mat-icon>add</mat-icon>Hinzufügen</button></div>

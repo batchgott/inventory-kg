@@ -1,0 +1,42 @@
+<mat-card class="add-user-form-card">
+  <mat-card-header>
+    <mat-card-title>Benutzer hinzufügen</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="add-user-form" [formGroup]="addUserForm">
+    <mat-form-field>
+      <mat-label>Vorname</mat-label>
+      <input matInput type="text" formControlName="firstname">
+      <mat-error *ngIf="addUserForm.get('firstname').errors">Vorname ist erforderlich</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nachname</mat-label>
+      <input matInput type="text" formControlName="lastname">
+      <mat-error *ngIf="addUserForm.get('lastname').errors">Nachname ist erforderlich</mat-error>
+    </mat-form-field>
+      <div class="password-form">
+        <mat-form-field>
+          <mat-label>Passwort</mat-label>
+          <input matInput type="password" formControlName="password">
+          <mat-error *ngIf="addUserForm.get('password').errors">Passwort muss mindestens 6 Zeichen lang sein</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Passwort wiederholen</mat-label>
+          <input matInput type="password" formControlName="repeatPassword">
+          <mat-error *ngIf="addUserForm.get('repeatPassword').errors">Passwort muss mindestens 6 Zeichen lang sein</mat-error>
+        </mat-form-field>
+        <mat-error class="mat-error-passwords" *ngIf="!matchingPasswords()">Die Passwörter müssen übereinstimmen</mat-error>
+      </div>
+      <mat-card-title class="title-groups">Schreibrechte in folgenden Gruppen:</mat-card-title>
+      <mat-selection-list dense >
+        <mat-list-option *ngFor="let group of groups|async">
+          <div class="group-list-option"><div class="group-color" [ngStyle]="{'background':group.color}"></div>{{group.name}}</div>
+        </mat-list-option>
+      </mat-selection-list>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button [disabled]="addUserForm.invalid||!matchingPasswords()" (click)="addUser()">Hinzufügen</button>
+    <button mat-button [routerLink]="['/users']">Abbrechen</button>
+  </mat-card-actions>
+</mat-card>

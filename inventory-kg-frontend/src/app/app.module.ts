@@ -12,8 +12,8 @@ import {
   MatCardModule, MatDialogModule, MatDividerModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule,
-  MatMenuModule, MatProgressSpinnerModule, MatRippleModule,
+  MatInputModule, MatListModule,
+  MatMenuModule, MatProgressSpinnerModule, MatRippleModule, MatSelectModule,
   MatSnackBarModule, MatSortModule, MatTableModule, MatTabsModule, MatTooltipModule
 } from '@angular/material';
 import { LoginComponent } from './components/login/login.component';
@@ -29,6 +29,7 @@ import { EditBookComponent } from './components/group/books/edit-book/edit-book.
 import { UserManagementComponent } from './components/user-management/user-management.component';
 import { UserTileComponent } from './components/user-management/user-tile/user-tile.component';
 import { RemoveAdminPipe } from './components/user-management/remove-admin.pipe';
+import { AddUserComponent } from './components/user-management/add-user/add-user.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { RemoveAdminPipe } from './components/user-management/remove-admin.pipe'
     EditBookComponent,
     UserManagementComponent,
     UserTileComponent,
-    RemoveAdminPipe
+    RemoveAdminPipe,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +71,8 @@ import { RemoveAdminPipe } from './components/user-management/remove-admin.pipe'
     MatDividerModule,
     MatExpansionModule,
     MatDialogModule,
-    MatRippleModule
+    MatRippleModule,
+    MatListModule
   ],
   providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptorSevice,multi:true}],
   bootstrap: [AppComponent],
