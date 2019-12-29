@@ -28,8 +28,8 @@
         <mat-error class="mat-error-passwords" *ngIf="!matchingPasswords()">Die Passwörter müssen übereinstimmen</mat-error>
       </div>
       <mat-card-title class="title-groups">Schreibrechte in folgenden Gruppen:</mat-card-title>
-      <mat-selection-list dense >
-        <mat-list-option *ngFor="let group of groups|async">
+      <mat-selection-list dense class="group-list" [(ngModel)]="selectedGroups" [ngModelOptions]="{standalone: true}">
+        <mat-list-option *ngFor="let group of groups|async" [value]="group">
           <div class="group-list-option"><div class="group-color" [ngStyle]="{'background':group.color}"></div>{{group.name}}</div>
         </mat-list-option>
       </mat-selection-list>

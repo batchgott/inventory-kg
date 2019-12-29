@@ -113,6 +113,22 @@ class UserRoutes extends ARoutes_1.default {
             user.lastName = req.body.lastName;
             res.json(yield this.repository.update(user));
         }));
+        //Change Groups
+        this.router.patch("/:userId/groups", VerifyRoutes_1.authAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () {
+            if (req.body.groups == null)
+                return res.status(400).send({ error: "no groups" });
+            try {
+                req.body.groups.forEach((g) => __awaiter(this, void 0, void 0, function* () {
+                    let group = yield GroupRepository_1.default.findOne(g._id);
+                    group.users.push(req.params.userId);
+                    yield GroupRepository_1.default.update(group);
+                    res.status(204);
+                }));
+            }
+            catch (error) {
+                res.status(400).send({ "error": error });
+            }
+        }));
         // TODO: Create route for updating password
         // TODO: Create update route for administrator
     }

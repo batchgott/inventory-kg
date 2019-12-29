@@ -22,6 +22,7 @@ export class AddUserComponent implements OnInit {
     repeatPassword:new FormControl('',[Validators.required,Validators.minLength(6)])
   });
   groups:Observable<Group[]>;
+  selectedGroups:Group[]=[];
   constructor(private snackBar:MatSnackBar,
               private userService:UserService,
               private router:Router,
@@ -42,8 +43,10 @@ export class AddUserComponent implements OnInit {
       this.addUserForm.get('lastname').value,
       this.addUserForm.get("password").value
       ).pipe(take(1)).subscribe(user=>{
-        this.snackBar.open(`Der Benutzer ${user.username} wurde erstellt`,null,{duration:3000});
-        this.router.navigate(['/users']);
+        this.userService.updateGroups(user._id,this.selectedGroups).pipe(take(1)).subscribe(()=>{},
+            err=>this.snackBar.open("Es ist ein Fehler aufgetreten","Schließen",{duration:10000,panelClass:['warn-snackbar']}))
+      this.snackBar.open(`Der Benutzer ${user.username} wurde erstellt`,null,{duration:3000});
+      this.router.navigate(['/users']);
     },err=>{
       this.snackBar.open("Es ist ein Fehler aufgetreten","Schließen",{duration:10000,panelClass:['warn-snackbar']});
     })

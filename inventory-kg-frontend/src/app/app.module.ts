@@ -19,7 +19,7 @@ import {
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthInterceptorSevice} from './shared/auth-interceptor.service';
 import { GroupComponent } from './components/group/group.component';
 import { BooksComponent } from './components/group/books/books.component';
@@ -30,6 +30,7 @@ import { UserManagementComponent } from './components/user-management/user-manag
 import { UserTileComponent } from './components/user-management/user-tile/user-tile.component';
 import { RemoveAdminPipe } from './components/user-management/remove-admin.pipe';
 import { AddUserComponent } from './components/user-management/add-user/add-user.component';
+import { ChangeUserComponent } from './components/user-management/change-user/change-user.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { AddUserComponent } from './components/user-management/add-user/add-user
     UserManagementComponent,
     UserTileComponent,
     RemoveAdminPipe,
-    AddUserComponent
+    AddUserComponent,
+    ChangeUserComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +74,8 @@ import { AddUserComponent } from './components/user-management/add-user/add-user
     MatExpansionModule,
     MatDialogModule,
     MatRippleModule,
-    MatListModule
+    MatListModule,
+    FormsModule
   ],
   providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptorSevice,multi:true}],
   bootstrap: [AppComponent],

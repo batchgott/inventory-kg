@@ -5,6 +5,7 @@
   cursor: pointer;
   display: flex;
   flex-direction: row;
+  flex-flow: wrap;
 
   p{
     display: inline-block;
@@ -28,6 +29,7 @@ and (max-width : 1200px) {
   }}
 
 .group-color-box{
+  margin-left: 7px;
   height: 30px;
   width: 30px;
 }

@@ -9,6 +9,7 @@ import { authSelfOrAdmin, authAdmin } from "../../src/utils/VerifyRoutes";
 import ARoutes from "./ARoutes";
 import { loginValidation, registerValidation, updateUserSelfValidation } from "./validation/userValidation";
 import GroupRepository from "../repositories/GroupRepository";
+import { IGroup } from "../../src/model/Group";
 
 class UserRoutes extends ARoutes<typeof UserRepository> {
 
@@ -99,6 +100,21 @@ class UserRoutes extends ARoutes<typeof UserRepository> {
             user.lastName = req.body.lastName;
             res.json(await this.repository.update(user));
         });
+
+        //Change Groups
+        this.router.patch("/:userId/groups",authAdmin,async(req,res)=>{
+            if(req.body.groups==null)return res.status(400).send({error:"no groups"});
+            try {
+                req.body.groups.forEach(async g => {
+                    let group:IGroup=await GroupRepository.findOne(g._id);
+                    group.users.push(req.params.userId);
+                    await GroupRepository.update(group);
+                    res.status(204);
+                });
+            } catch (error) {
+                res.status(400).send({"error":error});
+            }
+        })
 
         // TODO: Create route for updating password
         // TODO: Create update route for administrator

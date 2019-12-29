@@ -61,6 +61,10 @@ export class UserService {
 
   public updateUser(user: User){}
 
+  public updateGroups(userId,groups:Group[]){
+    return this.http.patch(environment.apiURL+`users/${userId}/groups`,{"groups":groups});
+  }
+
   public deleteUser(id: number){}
 
   public getUserById(id: number){}
