@@ -6,12 +6,12 @@
     <form class="add-user-form" [formGroup]="addUserForm">
     <mat-form-field>
       <mat-label>Vorname</mat-label>
-      <input matInput type="text" formControlName="firstname">
+      <input matInput type="text" formControlName="firstname" appNoWhiteSpaces>
       <mat-error *ngIf="addUserForm.get('firstname').errors">Vorname ist erforderlich</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Nachname</mat-label>
-      <input matInput type="text" formControlName="lastname">
+      <input matInput type="text" formControlName="lastname" appNoWhiteSpaces>
       <mat-error *ngIf="addUserForm.get('lastname').errors">Nachname ist erforderlich</mat-error>
     </mat-form-field>
       <div class="password-form">

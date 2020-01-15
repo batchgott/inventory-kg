@@ -21,6 +21,17 @@ class GroupRepository extends BaseRepository<IGroup> {
         }
     }
 
+    public async deleteUserFromGroups(userId){
+        try {
+            let groups:Array<IGroup>=await (await this._collection.find({users: userId})).toArray();
+            groups.forEach(async g=>{
+                await this._collection.updateMany({_id:g._id},{ $pullAll: {users: [userId] } });
+            });
+        } catch (error) {
+            return {message:error}
+        }
+    }
+
 }
 
 export default GroupRepository.Instance;

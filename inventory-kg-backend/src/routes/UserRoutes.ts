@@ -90,11 +90,13 @@ class UserRoutes extends ARoutes<typeof UserRepository> {
         });
 
         // Update
-        // TODO: Check if username exists
         this.router.put("/:userId", authSelfOrAdmin, async (req, res) => {
             const {error} = updateUserSelfValidation(req.body);
             if (error) { return res.status(400).send(error.details[0].message); }
             const user: IUser = await User.findById(req.params.userId);
+            if(await this.repository.usernameIsTaken(req.body.username)&&req.body.username!=user.username)
+                return res.status(404).json({"error":"Username already taken"})
+            
             user.username = req.body.username;
             user.firstName = req.body.firstName;
             user.lastName = req.body.lastName;
@@ -105,12 +107,13 @@ class UserRoutes extends ARoutes<typeof UserRepository> {
         this.router.patch("/:userId/groups",authAdmin,async(req,res)=>{
             if(req.body.groups==null)return res.status(400).send({error:"no groups"});
             try {
-                req.body.groups.forEach(async g => {
+                await GroupRepository.deleteUserFromGroups(req.params.userId);
+                await req.body.groups.forEach(async g => {
                     let group:IGroup=await GroupRepository.findOne(g._id);
                     group.users.push(req.params.userId);
                     await GroupRepository.update(group);
-                    res.status(204);
                 });
+                res.status(200).send();
             } catch (error) {
                 res.status(400).send({"error":error});
             }

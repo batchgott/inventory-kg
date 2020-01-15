@@ -59,15 +59,25 @@ export class UserService {
   }
 
 
-  public updateUser(user: User){}
+  public update(userid,firstname:string,lastname:string,username:string){
+    return this.http.put(environment.apiURL+`users/${userid}`,{
+      "username":username,
+      "firstName":firstname,
+      "lastName":lastname
+    })
+  }
 
   public updateGroups(userId,groups:Group[]){
     return this.http.patch(environment.apiURL+`users/${userId}/groups`,{"groups":groups});
   }
 
-  public deleteUser(id: number){}
+  public deleteUser(id){
+    return this.http.delete(environment.apiURL+`users/${id}`);
+  }
 
-  public getUserById(id: number){}
+  public getUserById(userId):Observable<User>{
+    return this.http.get<User>(environment.apiURL+`users/${userId}`);
+  }
 
   public getGroupsByUser(userId):Observable<Group[]>{
     return this.http.get<Group[]>(environment.apiURL+`users/${userId}/groups`);

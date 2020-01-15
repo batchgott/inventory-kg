@@ -31,6 +31,7 @@ import { UserTileComponent } from './components/user-management/user-tile/user-t
 import { RemoveAdminPipe } from './components/user-management/remove-admin.pipe';
 import { AddUserComponent } from './components/user-management/add-user/add-user.component';
 import { ChangeUserComponent } from './components/user-management/change-user/change-user.component';
+import { NoWhiteSpacesDirective } from './shared/no-white-spaces.directive';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { ChangeUserComponent } from './components/user-management/change-user/ch
     UserTileComponent,
     RemoveAdminPipe,
     AddUserComponent,
-    ChangeUserComponent
+    ChangeUserComponent,
+    NoWhiteSpacesDirective
   ],
   imports: [
     BrowserModule,

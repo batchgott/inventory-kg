@@ -7,6 +7,7 @@ import {AuthGuard} from './auth-guard';
 import {UserManagementComponent} from '../components/user-management/user-management.component';
 import {AdminAuthGuard} from './admin-auth-guard';
 import {AddUserComponent} from '../components/user-management/add-user/add-user.component';
+import {ChangeUserComponent} from '../components/user-management/change-user/change-user.component';
 
 
 const routes: Routes = [
@@ -17,7 +18,8 @@ const routes: Routes = [
     ]},
   {path:'users',canActivate:[AdminAuthGuard],children:[
       {path: "",component: UserManagementComponent},
-      {path: "new",component: AddUserComponent}
+      {path: "new",component: AddUserComponent},
+      {path: ":userid",component: ChangeUserComponent}
     ]},
   {path:'login',component:LoginComponent}];
 

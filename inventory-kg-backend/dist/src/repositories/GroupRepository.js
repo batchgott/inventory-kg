@@ -30,6 +30,19 @@ class GroupRepository extends BaseReposetory_1.default {
             }
         });
     }
+    deleteUserFromGroups(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let groups = yield (yield this._collection.find({ users: userId })).toArray();
+                groups.forEach((g) => __awaiter(this, void 0, void 0, function* () {
+                    yield this._collection.updateMany({ _id: g._id }, { $pullAll: { users: [userId] } });
+                }));
+            }
+            catch (error) {
+                return { message: error };
+            }
+        });
+    }
 }
 exports.default = GroupRepository.Instance;
 //# sourceMappingURL=GroupRepository.js.map

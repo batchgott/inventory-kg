@@ -101,13 +101,14 @@ class UserRoutes extends ARoutes_1.default {
             res.json(yield this.repository.delete(req.params.userId));
         }));
         // Update
-        // TODO: Check if username exists
         this.router.put("/:userId", VerifyRoutes_1.authSelfOrAdmin, (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { error } = userValidation_1.updateUserSelfValidation(req.body);
             if (error) {
                 return res.status(400).send(error.details[0].message);
             }
             const user = yield User_1.default.findById(req.params.userId);
+            if ((yield this.repository.usernameIsTaken(req.body.username)) && req.body.username != user.username)
+                return res.status(404).json({ "error": "Username already taken" });
             user.username = req.body.username;
             user.firstName = req.body.firstName;
             user.lastName = req.body.lastName;
@@ -118,12 +119,13 @@ class UserRoutes extends ARoutes_1.default {
             if (req.body.groups == null)
                 return res.status(400).send({ error: "no groups" });
             try {
-                req.body.groups.forEach((g) => __awaiter(this, void 0, void 0, function* () {
+                yield GroupRepository_1.default.deleteUserFromGroups(req.params.userId);
+                yield req.body.groups.forEach((g) => __awaiter(this, void 0, void 0, function* () {
                     let group = yield GroupRepository_1.default.findOne(g._id);
                     group.users.push(req.params.userId);
                     yield GroupRepository_1.default.update(group);
-                    res.status(204);
                 }));
+                res.status(200).send();
             }
             catch (error) {
                 res.status(400).send({ "error": error });

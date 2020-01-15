@@ -1,1 +1,35 @@
-<p>change-user works!</p>
+<mat-card class="change-user-form-card">
+  <mat-card-header>
+    <mat-card-title>Benutzer bearbeiten</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="change-user-form" [formGroup]="changeUserForm">
+      <mat-form-field>
+        <mat-label>Vorname</mat-label>
+        <input matInput type="text" formControlName="firstname" appNoWhiteSpaces>
+        <mat-error *ngIf="changeUserForm.get('firstname').errors">Vorname ist erforderlich</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nachname</mat-label>
+        <input matInput type="text" formControlName="lastname" appNoWhiteSpaces>
+        <mat-error *ngIf="changeUserForm.get('lastname').errors">Nachname ist erforderlich</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput type="text" formControlName="username" appNoWhiteSpaces>
+        <mat-error *ngIf="changeUserForm.get('username').errors">Username ist erforderlich</mat-error>
+      </mat-form-field>
+      <mat-card-title class="title-groups">Schreibrechte in folgenden Gruppen:</mat-card-title>
+      <mat-selection-list *ngIf="groups" dense class="group-list" [(ngModel)]="selectedGroups" [ngModelOptions]="{standalone: true}">
+        <mat-list-option *ngFor="let group of groups" [value]="group">
+          <div class="group-list-option"><div class="group-color" [ngStyle]="{'background':group.color}"></div>{{group.name}}</div>
+        </mat-list-option>
+      </mat-selection-list>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button [disabled]="changeUserForm.invalid" (click)="changeUser()"><mat-icon>edit</mat-icon>Bearbeiten</button>
+    <button mat-button [disabled]="changeUserForm.invalid" (click)="deleteUser()"><mat-icon>delete</mat-icon>Löschen</button>
+    <button mat-button [routerLink]="['/users']">Abbrechen</button>
+  </mat-card-actions>
+</mat-card>
