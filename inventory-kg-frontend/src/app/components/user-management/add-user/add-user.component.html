@@ -37,6 +37,6 @@
   </mat-card-content>
   <mat-card-actions>
     <button mat-button [disabled]="addUserForm.invalid||!matchingPasswords()" (click)="addUser()">Hinzufügen</button>
-    <button mat-button [routerLink]="['/users']">Abbrechen</button>
+    <button mat-button [routerLink]="['/user-management']">Abbrechen</button>
   </mat-card-actions>
 </mat-card>

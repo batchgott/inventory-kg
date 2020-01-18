@@ -69,7 +69,7 @@ export class ChangeUserComponent implements OnInit {
         err=>{
         this.snackBar.open("Es ist ein Fehler aufgetreten","Schließen",{duration:10000,panelClass:['warn-snackbar']});
       });
-      this.router.navigate(['/users']);
+      this.router.navigate(['/user-management']);
     },err=>{
       if (err["error"]["error"]=="Username already taken")
         this.snackBar.open("Dieser Benutzername ist schon vergeben","Schließen",{duration:10000,panelClass:['warn-snackbar']});
@@ -86,7 +86,7 @@ export class ChangeUserComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result=>{
       if (result){
         this.userService.deleteUser(this.user._id).pipe(take(1)).subscribe(()=>
-          this.router.navigate(['/users']),
+          this.router.navigate(['/user-management']),
             err=> this.snackBar.open("Es ist ein Fehler aufgetreten","Schließen",{duration:10000,panelClass:['warn-snackbar']})
         )
       }

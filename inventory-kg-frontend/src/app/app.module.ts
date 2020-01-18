@@ -32,6 +32,9 @@ import { RemoveAdminPipe } from './components/user-management/remove-admin.pipe'
 import { AddUserComponent } from './components/user-management/add-user/add-user.component';
 import { ChangeUserComponent } from './components/user-management/change-user/change-user.component';
 import { NoWhiteSpacesDirective } from './shared/no-white-spaces.directive';
+import { GroupManagementComponent } from './components/group-management/group-management.component';
+import { AddGroupComponent } from './components/group-management/add-group/add-group.component';
+import { ChangeGroupComponent } from './components/group-management/change-group/change-group.component';
 
 
 @NgModule({
@@ -50,7 +53,10 @@ import { NoWhiteSpacesDirective } from './shared/no-white-spaces.directive';
     RemoveAdminPipe,
     AddUserComponent,
     ChangeUserComponent,
-    NoWhiteSpacesDirective
+    NoWhiteSpacesDirective,
+    GroupManagementComponent,
+    AddGroupComponent,
+    ChangeGroupComponent
   ],
   imports: [
     BrowserModule,

@@ -46,7 +46,7 @@ export class AddUserComponent implements OnInit {
         this.userService.updateGroups(user._id,this.selectedGroups).pipe(take(1)).subscribe(()=>{},
             err=>this.snackBar.open("Es ist ein Fehler aufgetreten","Schließen",{duration:10000,panelClass:['warn-snackbar']}))
       this.snackBar.open(`Der Benutzer ${user.username} wurde erstellt`,null,{duration:3000});
-      this.router.navigate(['/users']);
+      this.router.navigate(['/user-management']);
     },err=>{
       this.snackBar.open("Es ist ein Fehler aufgetreten","Schließen",{duration:10000,panelClass:['warn-snackbar']});
     })

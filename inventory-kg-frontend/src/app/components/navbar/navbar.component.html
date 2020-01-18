@@ -6,7 +6,8 @@
 <!--      <button mat-flat-button routerLink="/login" *ngIf="!isAuthenticated">Login</button>-->
       <button mat-flat-button [matMenuTriggerFor]="userMenu" *ngIf="isAuthenticated&&currentUser!=null" class="user-button"><mat-icon class="user-icon">person</mat-icon>{{currentUser?.username}}</button>
       <mat-menu #userMenu="matMenu">
-        <button mat-menu-item *ngIf="currentUser?.role==1" [routerLink]="['/users']"><mat-icon>people</mat-icon>Benutzerverwaltung</button>
+        <button mat-menu-item *ngIf="currentUser?.role==1" [routerLink]="['/user-management']"><mat-icon>people</mat-icon>Benutzerverwaltung</button>
+        <button mat-menu-item *ngIf="currentUser?.role==1" [routerLink]="['/group-management']"><mat-icon>dashboard</mat-icon>Gruppenverwaltung</button>
         <button mat-menu-item><mat-icon>settings</mat-icon>Einstellungen</button>
         <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>Logout</button>
       </mat-menu>
